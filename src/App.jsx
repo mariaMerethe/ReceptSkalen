@@ -1,13 +1,14 @@
 import './App.css'
+import SearchComponent from './comps/SearchComponent'
 
 function App() {
 
   return (
-    <>
-    //detta är en teständring
-      <h1 className='text-xl font-bold text-red-700'>Hello Tailwindcss with react vite</h1>
-    </>
+    <div className='p-4'>
+      <h1 className='text-2xl font-bold'>ReceptSkålen</h1>
+      <SearchComponent />
+    </div>
   )
-}
+};
 
 export default App
