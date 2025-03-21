@@ -5,11 +5,18 @@ const ResultsComponent = ({recipes}) => {
             {recipes.length === 0 ? (
                 <p>Inga resultat än...</p>
             ) : (
-                <ul>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
                     {recipes.map((meal) => (
-                        <li key={meal.idMeal}>{meal.strMeal}</li>
+                        <div key={meal.idMeal} className="card bg-base-100 shadow-md p-4 rounded-lg">
+                            <img 
+                                src={meal.strMealThumb} 
+                                alt={meal.strMeal}
+                                className="w-full h-auto rounded-lg"
+                            />
+                            <h3 className="text-lg font-bold mt-2">{meal.strMeal}</h3>
+                        </div>
                     ))}
-                </ul>
+                </div>
             )}
         </div>
     );
