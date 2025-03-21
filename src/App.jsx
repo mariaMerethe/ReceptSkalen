@@ -1,11 +1,13 @@
 import './App.css'
+import { useState, useEffect } from "react" 
 import SearchComponent from './comps/SearchComponent'
 import ResultsComponent from './comps/ResultsComponent'
-import { useState, useEffect } from "react"
+import MealDetailComponent from "./comps/MealDetailComponent"
 
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [recipes, setRecipes] = useState([]);
+  const [selectedMeal, setSelectedMeal] = useState(null); //sparar klickad maträtt
 
   useEffect(() => {
     if (searchTerm.trim() === "") return; //om söktermen är tom, gör inget API-anrop
@@ -24,13 +26,19 @@ function App() {
     fetchRecipes();
   }, [searchTerm]);
 
+  //funktion för att hantera klick på en maträtt
+  const handleSelectedMeal = (meal) => {
+    setSelectedMeal(meal); //uppdaterar den valda maträtten
+  };
+
   return (
     <div className='p-4'>
       <h1 className='text-2xl font-bold'>ReceptSkålen</h1>
       <SearchComponent onSearch={setSearchTerm} />
-      <ResultsComponent recipes={recipes} />
+      <ResultsComponent recipes={recipes} onSelectedMeal={handleSelectedMeal} />
+      {selectedMeal && <MealDetailComponent meal={selectedMeal} />}
     </div>
-  )
+  );
 };
 
 export default App;
