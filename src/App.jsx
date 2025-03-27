@@ -48,18 +48,27 @@ function App() {
   };
 
   return (
-    <div className='p-4'>
-      <h1 className='text-2xl font-bold'>ReceptSkålen</h1>
-      <SearchComponent onSearch={setSearchTerm} />
-      <ResultsComponent 
-        recipes={recipes} 
-        error={error} 
-        loading={loading} 
-        onSelectedMeal={handleSelectedMeal} 
-      />
-      {selectedMeal && <MealDetailComponent meal={selectedMeal} />}
+    <div className='min-h-screen bg-neutral-150 text-gray-800 font-sans p-8 py-6'>
+      <h1 className='text-3xl font-bold mb-12 text-center'>ReceptSkålen</h1>
+      
+      <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
+        {/*vänster kolumn */}
+        <div className='lg:col-span-2 space-y-6'>
+          <SearchComponent onSearch={setSearchTerm} />
+          <ResultsComponent 
+            recipes={recipes} 
+            error={error} 
+            loading={loading} 
+            onSelectedMeal={handleSelectedMeal} 
+          />
+        </div>
+
+      {/*höger kolumn */}  
+      <div>
+        {selectedMeal && <MealDetailComponent meal={selectedMeal} />}
+      </div>
     </div>
-  );
+  </div>)
 };
 
 export default App;
