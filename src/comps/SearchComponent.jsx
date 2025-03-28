@@ -20,13 +20,14 @@ const SearchComponent = ({onSearch})  => {
             <input 
                 type="text"
                 placeholder="Sök efter en maträtt..."
-                className="input input-bordered w-96 border-gray-300 text-gray-800 bg-white placeholder-gray-400 focus:border-gray-600 focus:outline-none"
+                className="w-96 px-4 py-2 rounded-lg shadow-md bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300"
                 value={searchTerm}
                 onChange={handleChange}
                 onKeyDown={handleKeyPress}
             />
             <button
-                className="btn bg-white text-gray-800 border border-gray-300 hover:bg-gray-100" onClick={handleSubmit}>
+                className="px-4 py-2 rounded-lg shadow-md bg-white text-gray-800 hover:bg-gray-100 transition" 
+                onClick={handleSubmit}>
                 Sök
             </button>
         </div>

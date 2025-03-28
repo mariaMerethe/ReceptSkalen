@@ -12,22 +12,35 @@ function App() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (searchTerm.trim() === "") return; //om söktermen är tom, gör inget API-anrop
-  
     //anropa API:et när searchTerm ändras
     const fetchRecipes = async () => {
       try {
         setLoading(true); //visa laddar
         setError(null); //nollställ tidigare fel
 
-        const response = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${searchTerm}`);
-        const data = await response.json();
-        
+        let data;
+
+        if (searchTerm.trim()) {
+          const response = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${searchTerm}`);
+          data = await response.json();
+        } else {
+          //hämta 3 slumpade recept parallellt
+          const responses = await Promise.all([
+            fetch('https://www.themealdb.com/api/json/v1/1/random.php'),
+            fetch('https://www.themealdb.com/api/json/v1/1/random.php'),
+            fetch('https://www.themealdb.com/api/json/v1/1/random.php')
+          ]);
+
+          const jsonData = await Promise.all(responses.map(res => res.json()));
+          data = { meals: jsonData.flatMap(res => res.meals) };
+        }
+
         if (!data.meals) {
-          setRecipes([]); //tom lista
-          setError("Inga träffar på sökningen."); //visa felmeddelande 
+          setRecipes([]);
+          setError("Inga träffar på sökningen.");
         } else {
           setRecipes(data.meals);
+          setSelectedMeal(data.meals[0]);
         }
         
       } catch (error) {
@@ -48,18 +61,19 @@ function App() {
   };
 
   return (
-    <div className='min-h-screen bg-neutral-150 text-gray-800 font-sans p-8 py-6'>
+    <div className='min-h-screen bg-neutral-100s text-gray-800 font-sans p-8 py-6'>
       <h1 className='text-3xl font-bold mb-12 text-center'>ReceptSkålen</h1>
       
-      <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
+      <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'> {/*div för innehåll */}
         {/*vänster kolumn */}
-        <div className='lg:col-span-2 space-y-6'>
+        <div className='lg:col-span-2 space-y-6'> {/*div för sökfält och sökresultat */}
           <SearchComponent onSearch={setSearchTerm} />
           <ResultsComponent 
             recipes={recipes} 
             error={error} 
             loading={loading} 
             onSelectedMeal={handleSelectedMeal} 
+            searchTerm={searchTerm}
           />
         </div>
 
