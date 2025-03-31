@@ -26,7 +26,7 @@ const SearchComponent = ({onSearch})  => {
                 onKeyDown={handleKeyPress}
             />
             <button
-                className="px-4 py-2 rounded-lg shadow-md bg-white text-gray-800 hover:bg-gray-100 transition" 
+                className="px-4 py-2 rounded-lg shadow-md bg-accent text-gray-800 hover:bg-gray-100 transition" 
                 onClick={handleSubmit}>
                 Sök
             </button>

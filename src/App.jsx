@@ -6,6 +6,7 @@ import {
   Route,
   Link
 } from 'react-router-dom'
+import Header from './comps/Header';
 import SearchComponent from './comps/SearchComponent'
 import ResultsComponent from './comps/ResultsComponent'
 import MealDetailComponent from './comps/MealDetailComponent'
@@ -83,14 +84,8 @@ useEffect(() => {
 
   return (
     <Router>
-      <div className='min-h-screen bg-neutral-100s text-gray-800 font-sans p-8 py-6'>
-        <h1 className='text-3xl font-bold mb-12 text-center'>ReceptSkålen</h1>
-
-        {/* navigering */}
-        <nav className='flex justify-center gap-6 mb-8'>
-          <Link to="/" className='underline text-blue-600 hover:text-blue-800'>Hem</Link>
-          <Link to="/favoriter" className='underline text-blue-600 hover:text-blue-800'>Mina favoriter</Link>
-        </nav>
+      <Header />
+      <div className='min-h-screen bg-[#FFFEFC] text-gray-800 font-sans p-8'>
 
         <Routes>
           <Route path="/" element={
