@@ -20,52 +20,53 @@ function App() {
   const [favorites, setFavorites] = useState(() => {
     const saved = localStorage.getItem("favorites");
     return saved ? JSON.parse(saved) : [];
-  });
+});
 
-  useEffect(() => {
-    localStorage.setItem("favorites", JSON.stringify(favorites));
+useEffect(() => {
+  localStorage.setItem("favorites", JSON.stringify(favorites));
+}, [favorites]);
 
-    //anropa API:et när searchTerm ändras
-    const fetchRecipes = async () => {
-      try {
-        setLoading(true); //visa laddar
-        setError(null); //nollställ tidigare fel
+//anropa API bara när searchTerm ändras
+useEffect(() => {
+  const fetchRecipes = async () => {
+    try {
+      setLoading(true);
+      setError(null);
 
-        let data;
+      let data;
 
-        if (searchTerm.trim()) {
-          const response = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${searchTerm}`);
-          data = await response.json();
-        } else {
-          //hämta 3 slumpade recept parallellt
-          const responses = await Promise.all([
-            fetch('https://www.themealdb.com/api/json/v1/1/random.php'),
-            fetch('https://www.themealdb.com/api/json/v1/1/random.php'),
-            fetch('https://www.themealdb.com/api/json/v1/1/random.php')
-          ]);
-          const jsonData = await Promise.all(responses.map(res => res.json()));
-          data = { meals: jsonData.flatMap(res => res.meals) };
-        }
-
-        if (!data.meals) {
-          setRecipes([]);
-          setError("Inga träffar på sökningen.");
-        } else {
-          setRecipes(data.meals);
-          setSelectedMeal(data.meals[0]); //visa första receptet
-        }
-
-      } catch (error) {
-        console.error("Fel vid hämtning av recept:", error);
-        setError("Ett tekniskt fel uppstod. Försök igen senare.");
-        setRecipes([]);
-      } finally {
-        setLoading(false);
+      if (searchTerm.trim()) {
+        const response = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${searchTerm}`);
+        data = await response.json();
+      } else {
+        const responses = await Promise.all([
+          fetch('https://www.themealdb.com/api/json/v1/1/random.php'),
+          fetch('https://www.themealdb.com/api/json/v1/1/random.php'),
+          fetch('https://www.themealdb.com/api/json/v1/1/random.php')
+        ]);
+        const jsonData = await Promise.all(responses.map(res => res.json()));
+        data = { meals: jsonData.flatMap(res => res.meals) };
       }
-    };
 
-    fetchRecipes();
-  }, [searchTerm, favorites]);
+      if (!data.meals) {
+        setRecipes([]);
+        setError("Inga träffar på sökningen.");
+      } else {
+        setRecipes(data.meals);
+        setSelectedMeal(data.meals[0]);
+      }
+
+    } catch (error) {
+      console.error("Fel vid hämtning av recept:", error);
+      setError("Ett tekniskt fel uppstod. Försök igen senare.");
+      setRecipes([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchRecipes();
+}, [searchTerm]);
 
   //funktion för att lägga till/ta bort favorit
   const toggleFavorite = (meal) => {
@@ -120,6 +121,7 @@ function App() {
             <FavoritesComponent
               favorites={favorites}
               onSelectedMeal={handleSelectedMeal}
+              toggleFavorite={toggleFavorite}
             />
           } />
         </Routes>
