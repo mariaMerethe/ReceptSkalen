@@ -9,6 +9,7 @@ export default {
       fontFamily: {
         montserrat: ['Montserrat', 'sans-serif'],
         archivo: ['Archivo Black', 'sans-serif'],
+        sans: ['Montserrat', 'sans-serif'],
       },
       colors: {
         header: '#f0ece7',

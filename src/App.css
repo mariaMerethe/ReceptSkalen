@@ -5,6 +5,11 @@ html, body {
   font-family: 'Montserrat', sans-serif;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Archivo Black', sans-serif;
+  letter-spacing: -1px; /* justera värdet tills det känns bra */
+}
+
 #root {
   min-height: 100vh;
   width: 100%;
