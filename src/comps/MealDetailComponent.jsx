@@ -7,7 +7,7 @@ const MealDetailComponent = ({meal}) => {
             <img 
                 src={meal.strMealThumb} 
                 alt={meal.strMeal} 
-                className="w-full h-auto rounded-lg"
+                className="w-full h-auto rounded-t-lg"
             />
             <h2 className="text-xl font-bold mt-2">
                 {meal.strMeal}

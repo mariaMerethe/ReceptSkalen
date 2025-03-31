@@ -1,7 +1,13 @@
-const ResultsComponent = ({recipes, error, loading, onSelectedMeal, searchTerm}) => {
+import { Heart } from "lucide-react";
+
+const ResultsComponent = ({recipes, error, loading, onSelectedMeal, searchTerm, favorites, toggleFavorite}) => {
     if (loading) {
         return <p className="mt-2 text-blue-500 font-semibold">Laddar recept...</p>;
     }
+
+    const isFavorite = (meal) => {
+        return favorites.some((fave) => fave.idMeal === meal.idMeal);
+    };
 
     const title = searchTerm.trim() === "" ? "Kocken tipsar" : "Sökresultat";
 
@@ -31,10 +37,27 @@ const ResultsComponent = ({recipes, error, loading, onSelectedMeal, searchTerm})
                             className="card bg-base-100 shadow-md p-4 rounded-lg cursor-pointer hover:shadow-lg transition duration-200"
                             onClick={() => onSelectedMeal(meal)} //gör korten klickbara
                         >
+                            {/*hjärta från Lucide */}
+                            <div
+                                className="absolute top-10 right-10 cursor-pointer hover:scale-110 transition-all duration-200"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    toggleFavorite(meal);
+                                }}
+                            >
+                                <Heart 
+                                    className={`w-6 h-6 ${
+                                        isFavorite(meal)
+                                            ? "fill-red-600 text-red-600"
+                                            : "text-white"
+                                    }`}
+                                />
+                            </div>
+
                             <img 
                                 src={meal.strMealThumb} 
                                 alt={meal.strMeal}
-                                className="w-full h-auto rounded-lg"
+                                className="w-full h-auto rounded-t-lg"
                             />
                             <h3 className="text-lg font-bold mt-2">{meal.strMeal}</h3>
                         </div>
