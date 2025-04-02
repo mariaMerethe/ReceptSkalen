@@ -11,6 +11,7 @@ import SearchComponent from './comps/SearchComponent'
 import ResultsComponent from './comps/ResultsComponent'
 import MealDetailComponent from './comps/MealDetailComponent'
 import FavoritesComponent from './comps/FavoritesComponent'
+import USPComponent from './comps/USPComponent';
 
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -93,6 +94,7 @@ useEffect(() => {
               <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
                 {/* vänster kolumn */}
                 <div className='lg:col-span-2 space-y-6'>
+                  <USPComponent />
                   <SearchComponent onSearch={setSearchTerm} />
                   <ResultsComponent
                     recipes={recipes}

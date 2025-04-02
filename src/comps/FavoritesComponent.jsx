@@ -17,8 +17,8 @@ const FavoritesComponent = ({ favorites, onSelectedMeal, toggleFavorite }) => {
       {visibleMeals.length === 0 ? (
         <p>Du har inga sparade favoriter än.</p>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Vänster 2 kolumner */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+          {/* vänster kolumn */}
           <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {visibleMeals.map((meal) => (
               <div
@@ -26,7 +26,7 @@ const FavoritesComponent = ({ favorites, onSelectedMeal, toggleFavorite }) => {
                 className="card bg-white shadow-md p-4 rounded-lg cursor-pointer hover:shadow-lg transition duration-200 relative"
                 onClick={() => setSelectedMeal(meal)}
               >
-                {/* Hjärtikon */}
+                {/* hjärtikon */}
                 <div
                   className="absolute top-4 right-4 cursor-pointer hover:scale-110 transition-all duration-200 z-10"
                   onClick={(e) => {
@@ -60,7 +60,7 @@ const FavoritesComponent = ({ favorites, onSelectedMeal, toggleFavorite }) => {
             ))}
           </div>
 
-          {/* Höger kolumn */}
+          {/* höger kolumn */}
           <div>{selectedMeal && <MealDetailComponent meal={selectedMeal} />}</div>
         </div>
       )}
