@@ -49,6 +49,13 @@ const FavoritesComponent = ({ favorites, onSelectedMeal, toggleFavorite }) => {
                   className="w-full h-auto rounded-t-lg"
                 />
                 <h3 className="text-lg font-bold mt-2">{meal.strMeal}</h3>
+                
+                {/* här visas meddelandet om det inte är favorit längre */}
+                {!isFavorite(meal) && (
+                  <p className="text-sm text-gray-500 mt-2">
+                    Receptet togs bort från listan – uppdatera sidan för att uppdatera listan.
+                  </p>
+                )}
               </div>
             ))}
           </div>
