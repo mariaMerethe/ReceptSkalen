@@ -22,53 +22,53 @@ function App() {
   const [favorites, setFavorites] = useState(() => {
     const saved = localStorage.getItem("favorites");
     return saved ? JSON.parse(saved) : [];
-});
+  });
 
-useEffect(() => {
-  localStorage.setItem("favorites", JSON.stringify(favorites));
-}, [favorites]);
+  useEffect(() => {
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+  }, [favorites]);
 
-//anropa API bara när searchTerm ändras
-useEffect(() => {
-  const fetchRecipes = async () => {
-    try {
-      setLoading(true);
-      setError(null);
+  //anropa API bara när searchTerm ändras
+  useEffect(() => {
+    const fetchRecipes = async () => {
+      try {
+        setLoading(true);
+        setError(null);
 
-      let data;
+        let data;
 
-      if (searchTerm.trim()) {
-        const response = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${searchTerm}`);
-        data = await response.json();
-      } else {
-        const responses = await Promise.all([
-          fetch('https://www.themealdb.com/api/json/v1/1/random.php'),
-          fetch('https://www.themealdb.com/api/json/v1/1/random.php'),
-          fetch('https://www.themealdb.com/api/json/v1/1/random.php')
-        ]);
-        const jsonData = await Promise.all(responses.map(res => res.json()));
-        data = { meals: jsonData.flatMap(res => res.meals) };
-      }
+        if (searchTerm.trim()) {
+          const response = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${searchTerm}`);
+          data = await response.json();
+        } else {
+          const responses = await Promise.all([
+            fetch('https://www.themealdb.com/api/json/v1/1/random.php'),
+            fetch('https://www.themealdb.com/api/json/v1/1/random.php'),
+            fetch('https://www.themealdb.com/api/json/v1/1/random.php')
+          ]);
+          const jsonData = await Promise.all(responses.map(res => res.json()));
+          data = { meals: jsonData.flatMap(res => res.meals) };
+        }
 
-      if (!data.meals) {
+        if (!data.meals) {
+          setRecipes([]);
+          setError("Inga träffar på sökningen.");
+        } else {
+          setRecipes(data.meals);
+          setSelectedMeal(data.meals[0]);
+        }
+
+      } catch (error) {
+        console.error("Fel vid hämtning av recept:", error);
+        setError("Ett tekniskt fel uppstod. Försök igen senare.");
         setRecipes([]);
-        setError("Inga träffar på sökningen.");
-      } else {
-        setRecipes(data.meals);
-        setSelectedMeal(data.meals[0]);
+      } finally {
+        setLoading(false);
       }
+    };
 
-    } catch (error) {
-      console.error("Fel vid hämtning av recept:", error);
-      setError("Ett tekniskt fel uppstod. Försök igen senare.");
-      setRecipes([]);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  fetchRecipes();
-}, [searchTerm]);
+    fetchRecipes();
+  }, [searchTerm]);
 
   //funktion för att lägga till/ta bort favorit
   const toggleFavorite = (meal) => {
@@ -92,7 +92,7 @@ useEffect(() => {
           <Route path="/" element={
             <div className='max-w-6xl mx-auto px-6 space-y-8'>
 
-              {/*ENDA välkomstrutan */}
+              {/* ENDA välkomstrutan */}
               <div className='bg-accent text-white rounded-lg p-6 shadow-md'>
                 <h2 className='text-2xl font-bold'>Välkommen till ReceptSkålen</h2>
                 <p className='mt-2'>Hitta din nästa favoritmåltid – inspireras av handplockade recept!</p>
@@ -100,13 +100,24 @@ useEffect(() => {
 
               <USPComponent />
 
-              {/*2 kolumner: vänster = innehåll + kort, höger = detaljer */}
+              {/* Sökfält + titel ovanför grid-layouten */}
+              <div className='space-y-2'>
+                <SearchComponent onSearch={setSearchTerm} />
+                <h2 className="text-xl font-bold">
+                  {searchTerm.trim() === "" ? "Kocken tipsar" : "Sökresultat"}
+                </h2>
+                {searchTerm.trim() === "" && (
+                  <p className="text-gray-600">
+                    Här kommer några handplockade recept som kocken gillar extra mycket!
+                  </p>
+                )}
+              </div>
+
+              {/* 2 kolumner: vänster = kort, höger = detaljer */}
               <div className='grid grid-cols-1 lg:grid-cols-3 gap-8 items-start'>
 
-                {/*vänster kolum - sökfält + receptkort */}
-                <div className='lg:col-span-2 space-y-6'>
-                  <SearchComponent onSearch={setSearchTerm} />
-
+                {/* vänster kolumn - receptkort */}
+                <div className='lg:col-span-2'>
                   <ResultsComponent
                     recipes={recipes}
                     error={error}
@@ -118,7 +129,7 @@ useEffect(() => {
                   />
                 </div>
 
-                {/*höger kolumn - detaljer */}
+                {/* höger kolumn - detaljer */}
                 <div>
                   {selectedMeal && <MealDetailComponent meal={selectedMeal} />}
                 </div>
@@ -127,7 +138,7 @@ useEffect(() => {
             </div>
           } />
           
-          {/*sida för favoriter */}
+          {/* sida för favoriter */}
           <Route path="/favoriter" element={
             <FavoritesComponent
               favorites={favorites}

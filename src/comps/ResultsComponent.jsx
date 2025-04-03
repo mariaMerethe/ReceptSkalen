@@ -14,13 +14,7 @@ const ResultsComponent = ({recipes, error, loading, onSelectedMeal, searchTerm, 
 
     return (
         <div>
-            <h2 className="text-xl font-bold mt-4 mb-2">{title}</h2>
 
-           {searchTerm.trim() === "" && (
-                <p className="text-gray-600 mt-1 mb-4">
-                    Här kommer några handplockade recept som kocken gillar extra mycket!
-                </p>
-           )}
 
             {error && (
                 <p className="text-red-500 font-semibold mt-2">{error}</p>
