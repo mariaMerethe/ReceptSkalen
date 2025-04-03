@@ -90,12 +90,23 @@ useEffect(() => {
 
         <Routes>
           <Route path="/" element={
-            <div className="max-w-6xl mx-auto px-6">
-              <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
-                {/* vänster kolumn */}
+            <div className='max-w-6xl mx-auto px-6 space-y-8'>
+
+              {/*ENDA välkomstrutan */}
+              <div className='bg-accent text-white rounded-lg p-6 shadow-md'>
+                <h2 className='text-2xl font-bold'>Välkommen till ReceptSkålen</h2>
+                <p className='mt-2'>Hitta din nästa favoritmåltid – inspireras av handplockade recept!</p>
+              </div>
+
+              <USPComponent />
+
+              {/*2 kolumner: vänster = innehåll + kort, höger = detaljer */}
+              <div className='grid grid-cols-1 lg:grid-cols-3 gap-8 items-start'>
+
+                {/*vänster kolum - sökfält + receptkort */}
                 <div className='lg:col-span-2 space-y-6'>
-                  <USPComponent />
                   <SearchComponent onSearch={setSearchTerm} />
+
                   <ResultsComponent
                     recipes={recipes}
                     error={error}
@@ -107,15 +118,16 @@ useEffect(() => {
                   />
                 </div>
 
-                {/* höger kolumn */}
+                {/*höger kolumn - detaljer */}
                 <div>
                   {selectedMeal && <MealDetailComponent meal={selectedMeal} />}
                 </div>
+
               </div>
             </div>
           } />
           
-          {/* sida för favoriter */}
+          {/*sida för favoriter */}
           <Route path="/favoriter" element={
             <FavoritesComponent
               favorites={favorites}
