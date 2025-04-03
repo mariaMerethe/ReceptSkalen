@@ -1,6 +1,6 @@
 import { Heart } from "lucide-react";
 
-const ResultsComponent = ({recipes, error, loading, onSelectedMeal, searchTerm, favorites, toggleFavorite}) => {
+const ResultsComponent = ({recipes, error, loading, onSelectedMeal, searchTerm, favorites, toggleFavorite, updateMealRating}) => {
     if (loading) {
         return <p className="mt-2 text-blue-500 font-semibold">Laddar recept...</p>;
     }
@@ -14,8 +14,6 @@ const ResultsComponent = ({recipes, error, loading, onSelectedMeal, searchTerm, 
 
     return (
         <div>
-
-
             {error && (
                 <p className="text-red-500 font-semibold mt-2">{error}</p>
             )}
@@ -54,6 +52,18 @@ const ResultsComponent = ({recipes, error, loading, onSelectedMeal, searchTerm, 
                                 alt={meal.strMeal}
                                 className="w-full h-auto rounded-t-lg"
                             />
+
+                            <div className="flex items-center space-x-1 mt-1" onClick={(e) => e.stopPropagation()}>
+                                {Array.from({ length: 5}, (_, i) => (
+                                    <span 
+                                    key={i}
+                                    className="cursor-pointer text-xl"
+                                    onClick={() => updateMealRating(meal.idMeal, i + 1)}
+                                    >
+                                        {i < meal.rating ? "★" : "☆"}
+                                    </span>
+                                ))}
+                            </div>
                             <h3 className="text-lg font-bold mt-2">{meal.strMeal}</h3>
                         </div>
                     ))}

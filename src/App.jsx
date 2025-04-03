@@ -54,8 +54,14 @@ function App() {
           setRecipes([]);
           setError("Inga träffar på sökningen.");
         } else {
-          setRecipes(data.meals);
-          setSelectedMeal(data.meals[0]);
+          const mealsWithRatings = data.meals.map(meal => ({
+            ...meal,
+            rating: Math.floor(Math.random() * 5) + 1 //betyg mellan 1-5
+          }));
+          setRecipes(mealsWithRatings);
+          setSelectedMeal(mealsWithRatings[0]);
+
+          console.log(mealsWithRatings);
         }
 
       } catch (error) {
@@ -81,6 +87,14 @@ function App() {
   //funktion för att hantera klick på en maträtt
   const handleSelectedMeal = (meal) => {
     setSelectedMeal(meal); //uppdaterar den valda maträtten
+  };
+
+  const updateMealRating = (idMeal, newRating) => {
+    setRecipes(prev =>
+      prev.map(meal =>
+        meal.idMeal === idMeal ? { ...meal, rating: newRating } : meal
+      )
+    );
   };
 
   return (
@@ -126,6 +140,7 @@ function App() {
                     searchTerm={searchTerm}
                     favorites={favorites}
                     toggleFavorite={toggleFavorite}
+                    updateMealRating={updateMealRating}
                   />
                 </div>
 
