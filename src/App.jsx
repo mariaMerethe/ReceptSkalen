@@ -100,19 +100,20 @@ function App() {
   return (
     <Router>
       <Header />
-      <div className='min-h-screen bg-[#FFFEFC] text-gray-800 font-sans p-8'>
+
+      <div className='min-h-screen bg-[#FFFEFC] text-gray-800 font-sans'>
+
+      <USPComponent />
 
         <Routes>
           <Route path="/" element={
             <div className='max-w-6xl mx-auto px-6 space-y-8'>
 
               {/* ENDA välkomstrutan */}
-              <div className='bg-accent text-white rounded-lg p-6 shadow-md'>
-                <h2 className='text-2xl font-bold'>Välkommen till ReceptSkålen</h2>
-                <p className='mt-2'>Hitta din nästa favoritmåltid – inspireras av handplockade recept!</p>
+              <div className='bg-accent text-white rounded-lg mt-6 p-4 shadow-md text-center'>
+                <h2 className='text-xl font-semibold'>Välkommen till ReceptSkålen</h2>
+                <p className='text-sm mt-1'>Hitta din nästa favoritmåltid – inspireras av handplockade recept!</p>
               </div>
-
-              <USPComponent />
 
               {/* Sökfält + titel ovanför grid-layouten */}
               <div className='space-y-2'>
