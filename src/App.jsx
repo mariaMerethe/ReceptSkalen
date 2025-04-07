@@ -115,70 +115,77 @@ function App() {
       <USPComponent />
       <Header />
 
-      <div className='min-h-screen bg-background text-gray-800 font-sans'>
-        <Routes>
-          <Route path="/" element={
-            <div className='max-w-6xl mx-auto pt-6 px-6 space-y-8'>
+      {/* wrapper för att layouta hela sidan med flex och få footern längst ner */}
+      <div className="flex flex-col min-h-screen bg-background text-gray-800 font-sans">
 
-              {/* välkomstruta */}
-              <div className='bg-accent text-gray-800 rounded-lg p-4 shadow-md text-center'>
-                <h2 className='text-xl font-semibold'>Välkommen till ReceptSkålen</h2>
-                <p className='text-sm mt-1'>Hitta din nästa favoritmåltid – inspireras av handplockade recept!</p>
-              </div>
+        {/* huvudinnehållet som ska växa och trycka ner footern */}
+        <main className="flex-grow">
+          <Routes>
+            <Route path="/" element={
+              <div className='max-w-6xl mx-auto pt-6 px-6 space-y-8'>
 
-              {/* sökfält + titel ovanför grid-layouten */}
-              <div className='space-y-2'>
-                <SearchComponent onSearch={setSearchTerm} />
-                <h2 className="text-xl font-bold">
-                  {searchTerm.trim() === "" ? "Kocken tipsar" : "Sökresultat"}
-                </h2>
-                {searchTerm.trim() === "" && (
-                  <p className="text-gray-700">
-                    Här kommer några handplockade recept som kocken gillar extra mycket!
-                  </p>
-                )}
-              </div>
-
-              {/* 2 kolumner: vänster = kort, höger = detaljer */}
-              <div className='grid grid-cols-1 lg:grid-cols-3 gap-8 items-start'>
-
-                {/* vänster kolumn - receptkort */}
-                <div className='lg:col-span-2'>
-                  <ResultsComponent
-                    recipes={recipes}
-                    error={error}
-                    loading={loading}
-                    onSelectedMeal={handleSelectedMeal}
-                    searchTerm={searchTerm}
-                    favorites={favorites}
-                    toggleFavorite={toggleFavorite}
-                    updateMealRating={updateMealRating}
-                  />
+                {/* välkomstruta */}
+                <div className='bg-accent text-gray-800 rounded-lg p-4 shadow-md text-center'>
+                  <h2 className='text-xl font-semibold'>Välkommen till ReceptSkålen</h2>
+                  <p className='text-sm mt-1'>Hitta din nästa favoritmåltid – inspireras av handplockade recept!</p>
                 </div>
 
-                {/* höger kolumn - detaljer */}
-                <div>
-                  {selectedMeal &&
-                    <MealDetailComponent
-                      meal={selectedMeal}
+                {/* sökfält + titel ovanför grid-layouten */}
+                <div className='space-y-2'>
+                  <SearchComponent onSearch={setSearchTerm} />
+                  <h2 className="text-xl font-bold">
+                    {searchTerm.trim() === "" ? "Kocken tipsar" : "Sökresultat"}
+                  </h2>
+                  {searchTerm.trim() === "" && (
+                    <p className="text-gray-700">
+                      Här kommer några handplockade recept som kocken gillar extra mycket!
+                    </p>
+                  )}
+                </div>
+
+                {/* 2 kolumner: vänster = kort, höger = detaljer */}
+                <div className='grid grid-cols-1 lg:grid-cols-3 gap-8 items-start'>
+
+                  {/* vänster kolumn - receptkort */}
+                  <div className='lg:col-span-2'>
+                    <ResultsComponent
+                      recipes={recipes}
+                      error={error}
+                      loading={loading}
+                      onSelectedMeal={handleSelectedMeal}
+                      searchTerm={searchTerm}
+                      favorites={favorites}
+                      toggleFavorite={toggleFavorite}
                       updateMealRating={updateMealRating}
                     />
-                  }
+                  </div>
+
+                  {/* höger kolumn - detaljer */}
+                  <div>
+                    {selectedMeal &&
+                      <MealDetailComponent
+                        meal={selectedMeal}
+                        updateMealRating={updateMealRating}
+                      />
+                    }
+                  </div>
+
                 </div>
-
               </div>
-            </div>
-          } />
+            } />
 
-          {/* sida för favoriter */}
-          <Route path="/favoriter" element={
-            <FavoritesComponent
-              favorites={favorites}
-              toggleFavorite={toggleFavorite}
-              updateMealRating={updateMealRating}
-            />
-          } />
-        </Routes>
+            {/* sida för favoriter */}
+            <Route path="/favoriter" element={
+              <FavoritesComponent
+                favorites={favorites}
+                toggleFavorite={toggleFavorite}
+                updateMealRating={updateMealRating}
+              />
+            } />
+          </Routes>
+        </main>
+
+        {/* FOOTER placeras alltid längst ner */}
         <Footer />
       </div>
     </Router>

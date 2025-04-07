@@ -1,23 +1,39 @@
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import logo from '../assets/receptskalen-logo.png';
 
 const Header = () => {
   return (
     <header className="bg-header shadow-md">
       <div className="max-w-6xl mx-auto px-6 pb-2 flex flex-col items-center justify-center text-center">
+
         {/*logotyp*/}
-        <Link to="/">
+        <NavLink to="/">
           <img src={logo} alt="ReceptSkålen" className="h-28 w-auto" />
-        </Link>
+        </NavLink>
 
         {/*navigering*/}
         <nav className="space-x-6 text-sm pt-4 font-medium">
-          <Link to="/" className="text-gray-700 hover:text-black transition">
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              isActive
+                ? "text-black font-semibold underline underline-offset-4"
+                : "text-gray-700 hover:text-black transition"
+            }
+          >
             Hem
-          </Link>
-          <Link to="/favoriter" className="text-gray-700 hover:text-black transition">
+          </NavLink>
+
+          <NavLink
+            to="/favoriter"
+            className={({ isActive }) =>
+              isActive
+                ? "text-black font-semibold underline underline-offset-4"
+                : "text-gray-700 hover:text-black transition"
+            }
+          >
             Mina favoriter
-          </Link>
+          </NavLink>
         </nav>
       </div>
     </header>

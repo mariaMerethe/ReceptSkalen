@@ -55,7 +55,7 @@ const FavoritesComponent = ({ favorites, toggleFavorite, updateMealRating }) => 
               >
                 {/* hjärta */}
                 <div
-                  className="absolute top-4 right-4 cursor-pointer hover:scale-110 transition-all duration-200 z-10"
+                  className="absolute top-10 right-10 cursor-pointer hover:scale-110 transition-all duration-200 z-10"
                   onClick={(e) => {
                     e.stopPropagation(); // hindra klick från att trigga detail-vy
                     toggleFavorite(meal); // lägg till eller ta bort från favoriter
