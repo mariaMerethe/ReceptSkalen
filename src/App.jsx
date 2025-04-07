@@ -3,8 +3,7 @@ import { useState, useEffect } from 'react'
 import {
   BrowserRouter as Router,
   Routes,
-  Route,
-  Link
+  Route
 } from 'react-router-dom'
 import Header from './comps/Header';
 import SearchComponent from './comps/SearchComponent'
@@ -16,7 +15,7 @@ import USPComponent from './comps/USPComponent';
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [recipes, setRecipes] = useState([]);
-  const [selectedMeal, setSelectedMeal] = useState(null); // sparar klickad maträtt
+  const [selectedMeal, setSelectedMeal] = useState(null); //sparar klickad maträtt
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [favorites, setFavorites] = useState(() => {
@@ -89,28 +88,40 @@ function App() {
     setSelectedMeal(meal); //uppdaterar den valda maträtten
   };
 
+  //funktion för att uppdatera rating i hela appen
   const updateMealRating = (idMeal, newRating) => {
+    //uppdatera alla recept
     setRecipes(prev =>
       prev.map(meal =>
         meal.idMeal === idMeal ? { ...meal, rating: newRating } : meal
       )
     );
+
+    //uppdatera i favoriter om receptet finns där
+    setFavorites((prev) =>
+      prev.map((meal) =>
+        meal.idMeal === idMeal ? { ...meal, rating: newRating } : meal
+      )
+    );
+
+    //uppdatera det valda receptet i detaljvyn om det är det som ändras
+    setSelectedMeal((prev) =>
+      prev?.idMeal === idMeal ? { ...prev, rating: newRating } : prev
+    );
   };
 
   return (
     <Router>
+      <USPComponent />
       <Header />
 
-      <div className='min-h-screen bg-[#FFFEFC] text-gray-800 font-sans'>
-
-      <USPComponent />
-
+      <div className='min-h-screen bg-background text-gray-800 font-sans'>
         <Routes>
           <Route path="/" element={
-            <div className='max-w-6xl mx-auto px-6 space-y-8'>
+            <div className='max-w-6xl mx-auto pt-6 px-6 space-y-8'>
 
               {/* ENDA välkomstrutan */}
-              <div className='bg-accent text-white rounded-lg mt-6 p-4 shadow-md text-center'>
+              <div className='bg-accent text-white rounded-lg p-4 shadow-md text-center'>
                 <h2 className='text-xl font-semibold'>Välkommen till ReceptSkålen</h2>
                 <p className='text-sm mt-1'>Hitta din nästa favoritmåltid – inspireras av handplockade recept!</p>
               </div>
@@ -147,7 +158,11 @@ function App() {
 
                 {/* höger kolumn - detaljer */}
                 <div>
-                  {selectedMeal && <MealDetailComponent meal={selectedMeal} />}
+                  {selectedMeal && 
+                  <MealDetailComponent 
+                  meal={selectedMeal}
+                  updateMealRating={updateMealRating} 
+                  />}
                 </div>
 
               </div>
@@ -158,8 +173,8 @@ function App() {
           <Route path="/favoriter" element={
             <FavoritesComponent
               favorites={favorites}
-              onSelectedMeal={handleSelectedMeal}
               toggleFavorite={toggleFavorite}
+              updateMealRating={updateMealRating}
             />
           } />
         </Routes>

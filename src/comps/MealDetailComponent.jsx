@@ -1,4 +1,6 @@
-const MealDetailComponent = ({meal}) => {
+import StarRating from "./StarRating";
+
+const MealDetailComponent = ({meal, updateMealRating}) => {
     if (!meal) return null; //om ingen maträtt är vald, visa ingen
 
     return (
@@ -9,9 +11,13 @@ const MealDetailComponent = ({meal}) => {
                 alt={meal.strMeal} 
                 className="w-full h-auto rounded-t-lg"
             />
+
+            <StarRating rating={meal.rating || 0} onRate={(newRating) => updateMealRating(meal.idMeal, newRating)} />
+
             <h2 className="text-xl font-bold mt-2">
                 {meal.strMeal}
             </h2>
+
             <p className="mt-2">
                 <strong>Kategori:</strong> {meal.strCategory}
             </p>

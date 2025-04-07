@@ -9,7 +9,7 @@ const USPComponent = () => {
 
     return (
         <div className="w-full bg-primary shadow-md">
-            <div className="max-w-7-xl mx-auto px-4 -py-3">
+            <div className="max-w-7-xl mx-auto px-4 py-3">
                 <p className="text-center text-sm text-gray-700 font-medium flex flex-wrap justify-center items-center gap-x-4 gap-y-2">
                     {uspItems.map((item, index) => (
                         <span key={index} className="flex items-center">

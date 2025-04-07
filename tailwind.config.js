@@ -15,7 +15,7 @@ export default {
         header: '#f0ece7',
         background: '#FFFEFC',
         accent: '#E69B5C',
-        primary: '#808C86',
+        primary: '#748A7F',
       },
     },
   },

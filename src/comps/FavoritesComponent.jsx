@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Heart } from "lucide-react";
 import MealDetailComponent from "./MealDetailComponent";
+import StarRating from "./StarRating";
 
-const FavoritesComponent = ({ favorites, onSelectedMeal, toggleFavorite }) => {
+const FavoritesComponent = ({ favorites, toggleFavorite, updateMealRating }) => {
   const [visibleMeals] = useState(favorites);
   const [selectedMeal, setSelectedMeal] = useState(null);
 
@@ -18,7 +19,8 @@ const FavoritesComponent = ({ favorites, onSelectedMeal, toggleFavorite }) => {
         <p>Du har inga sparade favoriter än.</p>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-          {/* vänster kolumn */}
+          
+          {/* vänster kolumn - kort */}
           <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {visibleMeals.map((meal) => (
               <div
@@ -48,9 +50,15 @@ const FavoritesComponent = ({ favorites, onSelectedMeal, toggleFavorite }) => {
                   alt={meal.strMeal}
                   className="w-full h-auto rounded-t-lg"
                 />
+
+                {/* ⭐ STJÄRNOR */}
+                <StarRating
+                  rating={meal.rating || 0}
+                  onRate={(newRating) => updateMealRating(meal.idMeal, newRating)}
+                />
+
                 <h3 className="text-lg font-bold mt-2">{meal.strMeal}</h3>
-                
-                {/* här visas meddelandet om det inte är favorit längre */}
+
                 {!isFavorite(meal) && (
                   <p className="text-sm text-gray-500 mt-2">
                     Receptet togs bort från listan – uppdatera sidan för att uppdatera listan.
@@ -60,8 +68,15 @@ const FavoritesComponent = ({ favorites, onSelectedMeal, toggleFavorite }) => {
             ))}
           </div>
 
-          {/* höger kolumn */}
-          <div>{selectedMeal && <MealDetailComponent meal={selectedMeal} />}</div>
+          {/* höger kolumn - detaljer */}
+          <div>
+            {selectedMeal && (
+              <MealDetailComponent
+                meal={selectedMeal}
+                updateMealRating={updateMealRating}
+              />
+            )}
+          </div>
         </div>
       )}
     </div>
