@@ -11,6 +11,7 @@ import ResultsComponent from './comps/ResultsComponent'
 import MealDetailComponent from './comps/MealDetailComponent'
 import FavoritesComponent from './comps/FavoritesComponent'
 import USPComponent from './comps/USPComponent';
+import Footer from './comps/Footer';
 
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -178,6 +179,7 @@ function App() {
             />
           } />
         </Routes>
+        <Footer />
       </div>
     </Router>
   );
