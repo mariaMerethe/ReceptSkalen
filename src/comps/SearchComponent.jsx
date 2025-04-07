@@ -20,7 +20,7 @@ const SearchComponent = ({onSearch})  => {
             <input 
                 type="text"
                 placeholder="Vad vill du laga?"
-                className="w-96 px-4 py-2 rounded-lg shadow-md bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300"
+                className="w-96 px-4 py-2 rounded-lg shadow-md bg-white text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-300"
                 value={searchTerm}
                 onChange={handleChange}
                 onKeyDown={handleKeyPress}

@@ -23,6 +23,7 @@ function App() {
     return saved ? JSON.parse(saved) : [];
   });
 
+  // spara favoriter till localStorage varje gång det ändras
   useEffect(() => {
     localStorage.setItem("favorites", JSON.stringify(favorites));
   }, [favorites]);
@@ -55,12 +56,10 @@ function App() {
         } else {
           const mealsWithRatings = data.meals.map(meal => ({
             ...meal,
-            rating: Math.floor(Math.random() * 5) + 1 //betyg mellan 1-5
+            rating: Math.floor(Math.random() * 5) + 1 //betyg mellan 1–5
           }));
           setRecipes(mealsWithRatings);
           setSelectedMeal(mealsWithRatings[0]);
-
-          console.log(mealsWithRatings);
         }
 
       } catch (error) {
@@ -98,14 +97,14 @@ function App() {
     );
 
     //uppdatera i favoriter om receptet finns där
-    setFavorites((prev) =>
-      prev.map((meal) =>
+    setFavorites(prev =>
+      prev.map(meal =>
         meal.idMeal === idMeal ? { ...meal, rating: newRating } : meal
       )
     );
 
     //uppdatera det valda receptet i detaljvyn om det är det som ändras
-    setSelectedMeal((prev) =>
+    setSelectedMeal(prev =>
       prev?.idMeal === idMeal ? { ...prev, rating: newRating } : prev
     );
   };
@@ -121,7 +120,7 @@ function App() {
             <div className='max-w-6xl mx-auto pt-6 px-6 space-y-8'>
 
               {/* välkomstruta */}
-              <div className='bg-accent text-white rounded-lg p-4 shadow-md text-center'>
+              <div className='bg-accent text-gray-800 rounded-lg p-4 shadow-md text-center'>
                 <h2 className='text-xl font-semibold'>Välkommen till ReceptSkålen</h2>
                 <p className='text-sm mt-1'>Hitta din nästa favoritmåltid – inspireras av handplockade recept!</p>
               </div>
@@ -133,7 +132,7 @@ function App() {
                   {searchTerm.trim() === "" ? "Kocken tipsar" : "Sökresultat"}
                 </h2>
                 {searchTerm.trim() === "" && (
-                  <p className="text-gray-600">
+                  <p className="text-gray-700">
                     Här kommer några handplockade recept som kocken gillar extra mycket!
                   </p>
                 )}
@@ -158,17 +157,18 @@ function App() {
 
                 {/* höger kolumn - detaljer */}
                 <div>
-                  {selectedMeal && 
-                  <MealDetailComponent 
-                  meal={selectedMeal}
-                  updateMealRating={updateMealRating} 
-                  />}
+                  {selectedMeal &&
+                    <MealDetailComponent
+                      meal={selectedMeal}
+                      updateMealRating={updateMealRating}
+                    />
+                  }
                 </div>
 
               </div>
             </div>
           } />
-          
+
           {/* sida för favoriter */}
           <Route path="/favoriter" element={
             <FavoritesComponent
