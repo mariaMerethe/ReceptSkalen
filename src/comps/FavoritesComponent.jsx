@@ -4,31 +4,36 @@ import MealDetailComponent from "./MealDetailComponent";
 import StarRating from "./StarRating";
 
 const FavoritesComponent = ({ favorites, toggleFavorite, updateMealRating }) => {
-  const [visibleMeals] = useState(favorites);
   const [selectedMeal, setSelectedMeal] = useState(null);
 
   const isFavorite = (meal) => {
     return favorites.some((fav) => fav.idMeal === meal.idMeal);
   };
 
+  const handleRate = (idMeal, newRating) => {
+    updateMealRating(idMeal, newRating);
+    const updated = favorites.find((m) => m.idMeal === idMeal);
+    if (updated) setSelectedMeal({ ...updated, rating: newRating });
+  };
+
   return (
     <div className="max-w-6xl mx-auto px-6 py-8">
       <h2 className="text-xl font-bold mb-6">Mina favoriter</h2>
 
-      {visibleMeals.length === 0 ? (
+      {favorites.length === 0 ? (
         <p>Du har inga sparade favoriter än.</p>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-          
+
           {/* vänster kolumn - kort */}
           <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {visibleMeals.map((meal) => (
+            {favorites.map((meal) => (
               <div
                 key={meal.idMeal}
                 className="card bg-white shadow-md p-4 rounded-lg cursor-pointer hover:shadow-lg transition duration-200 relative"
                 onClick={() => setSelectedMeal(meal)}
               >
-                {/* hjärtikon */}
+                {/* hjärta */}
                 <div
                   className="absolute top-4 right-4 cursor-pointer hover:scale-110 transition-all duration-200 z-10"
                   onClick={(e) => {
@@ -51,10 +56,10 @@ const FavoritesComponent = ({ favorites, toggleFavorite, updateMealRating }) => 
                   className="w-full h-auto rounded-t-lg"
                 />
 
-                {/* ⭐ STJÄRNOR */}
+                {/* stjärnor */}
                 <StarRating
                   rating={meal.rating || 0}
-                  onRate={(newRating) => updateMealRating(meal.idMeal, newRating)}
+                  onRate={(newRating) => handleRate(meal.idMeal, newRating)}
                 />
 
                 <h3 className="text-lg font-bold mt-2">{meal.strMeal}</h3>
@@ -68,15 +73,16 @@ const FavoritesComponent = ({ favorites, toggleFavorite, updateMealRating }) => 
             ))}
           </div>
 
-          {/* höger kolumn - detaljer */}
+          {/* höger kolumn - detaljvy */}
           <div>
             {selectedMeal && (
               <MealDetailComponent
                 meal={selectedMeal}
-                updateMealRating={updateMealRating}
+                updateMealRating={handleRate}
               />
             )}
           </div>
+
         </div>
       )}
     </div>

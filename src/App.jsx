@@ -120,13 +120,13 @@ function App() {
           <Route path="/" element={
             <div className='max-w-6xl mx-auto pt-6 px-6 space-y-8'>
 
-              {/* ENDA välkomstrutan */}
+              {/* välkomstruta */}
               <div className='bg-accent text-white rounded-lg p-4 shadow-md text-center'>
                 <h2 className='text-xl font-semibold'>Välkommen till ReceptSkålen</h2>
                 <p className='text-sm mt-1'>Hitta din nästa favoritmåltid – inspireras av handplockade recept!</p>
               </div>
 
-              {/* Sökfält + titel ovanför grid-layouten */}
+              {/* sökfält + titel ovanför grid-layouten */}
               <div className='space-y-2'>
                 <SearchComponent onSearch={setSearchTerm} />
                 <h2 className="text-xl font-bold">
