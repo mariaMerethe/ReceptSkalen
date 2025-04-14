@@ -27,9 +27,9 @@ const MealDetailComponent = ({meal, updateMealRating}) => {
             <h3 className="text-lg font-bold mt-4">
                 Instruktioner
             </h3>
-            <p className="text-sm">
-                {meal.strInstructions}
-            </p>
+            {meal.strInstructions.split('\r\n').map((str, idx) => (
+             <p className="mb-3" key={idx}>{str}</p>
+            ))}
         </div>
     );
 };

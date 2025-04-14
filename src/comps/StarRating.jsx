@@ -6,7 +6,7 @@ const StarRating = ({ rating, onRate }) => {
                     key={i}
                     className="cursor-pointer text-xl"
                     onClick={(e) => {
-                        e.stopPropagation(); //hindra bubbling
+                        e.stopPropagation(); //hindra bubbling, så att inte onClick triggas i parent
                         onRate?.(i + 1);
                     }}
                 >

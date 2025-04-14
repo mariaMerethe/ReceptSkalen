@@ -11,7 +11,7 @@ const Footer = () => {
           {/* Skapare */}
           <div>
             <p>
-              Skapad av <span className="font-semibold">Maria Borglund</span> • 2025
+              Skapad av <span className="font-semibold">Maria Borglund</span> • {new Date().getFullYear()}
             </p>
           </div>
         </div>
